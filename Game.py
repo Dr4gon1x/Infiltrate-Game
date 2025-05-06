@@ -87,9 +87,9 @@ class Player(Entity):
         self.jumpStrength = self.fallStrength*17.5
         self.jumpCount = 0
         self.canJump = True
-
+    
     def draw(self, kamera):
-        pygame.draw.rect(screen,"white", kamera.apply(pygame.Rect(self.PosX, self.PosY, self.Width, self.Height)))
+        pygame.draw.rect(screen,"aqua", kamera.apply(pygame.Rect(self.PosX, self.PosY, self.Width, self.Height)))
 
     def movement(self):
 
@@ -123,9 +123,9 @@ class Enemy(Entity):
         super().__init__(PosX, PosY, Width, Height, health, TidSidenSidsteSkud)
         self.Player = Player
     
-    def draw(self, Kamera):
-        pygame.draw.rect(screen, "green", Kamera.apply(pygame.Rect(self.PosX, self.PosY, self.Width, self.Height)))
-    
+    def draw(self, kamera):
+        pygame.draw.rect(screen, "green", kamera.apply(pygame.Rect(self.PosX, self.PosY, self.Width, self.Height)))
+
     def PlayerDetect(self, Kamera, Player):
         Range = 250
         if (Player.PosX + Player.Width > self.PosX - Range and 
@@ -147,7 +147,7 @@ class Object:
 class Wall(Object):
     def __init__(self, X, Y, Width, Height):
         super().__init__(X, Y, Width, Height)
-
+    
     def draw(self, kamera):
         pygame.draw.rect(screen,"white", kamera.apply(pygame.Rect(self.X, self.Y, self.Width, self.Height)))
 
@@ -156,13 +156,14 @@ class Ladder(Object):
         super().__init__(X, Y, Width, Height)
     
     def draw(self, kamera):
-        pygame.draw.rect(screen, "grey", kamera.apply(pygame.Rect(self.X, self.Y, self.Width, self.Height)))
+        pygame.draw.rect(screen,"grey", kamera.apply(pygame.Rect(self.X, self.Y, self.Width, self.Height)))
 
 class Door(Object):
     def __init__(self, X, Y, Width, Height):
         super().__init__(X, Y, Width, Height)
+    
     def draw(self, kamera):
-        pygame.draw.rect(screen, "chocolate4", kamera.apply(pygame.Rect(self.X, self.Y, self.Width, self.Height)))
+        pygame.draw.rect(screen,"chocolate4", kamera.apply(pygame.Rect(self.X, self.Y, self.Width, self.Height)))
 
 class Bullet:
     def __init__(self, BulletX, BulletY, retningX, retningY, shooter):
@@ -231,10 +232,6 @@ def ColisionHandler(Player, walls, ladders):
             print("Du nåede til udgangen uden at dø, og klarede derfor banen!")
             pygame.quit()
             exit()
-
-
-
-
 
 def shoot(player, shooter, Target, kamera):
     Tick = pygame.time.get_ticks()
@@ -335,7 +332,6 @@ ladders.append(Ladder(25,-1125,50,300)) # stige 4
 
 walls.append(Wall(100, -900, 150, 25))
 enemies.append(Enemy(125, -950, enemyW, enemyH, enemyHealth, 0, currentPlayer))
-
 walls.append(Wall(350, -925, 100, 25))
 walls.append(Wall(375,-900,50,75))
 enemies.append(Enemy(475,-875,enemyW,enemyH,enemyHealth,0,currentPlayer))
@@ -364,7 +360,6 @@ while running:
     screen.fill("black")
 
     #Funktioner der skal køres:
-
     for wall in walls:
         wall.draw(kamera)
     for ladder in ladders:
@@ -382,19 +377,14 @@ while running:
         if bullet.active == False:
             bullets.remove(bullet)
 
-
     kamera.update(currentPlayer)
     currentPlayer.movement()
     currentPlayer.Gravity()
     currentPlayer.Hit(bullets)
-    
     ColisionHandler(currentPlayer, walls, ladders)
-
     currentPlayer.draw(kamera)
-
     if pygame.key.get_pressed()[pygame.K_SPACE]:
         shoot(currentPlayer, currentPlayer, "mouse", kamera)
-
 
     #--------------------------
 
