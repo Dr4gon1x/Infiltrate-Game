@@ -192,8 +192,8 @@ class Bullet:
         self.BulletY += self.retningY * self.hastighed
         self.traveled += self.hastighed
 
-def ColisionHandler(Player, walls, ladders):
-    PlayerRect = Player.GetRect()
+def ColisionHandler():
+    PlayerRect = currentPlayer.GetRect()
     
     for Wall in walls:
         WallRect = Wall.GetRect()
@@ -202,7 +202,7 @@ def ColisionHandler(Player, walls, ladders):
             forskelX = PlayerRect.centerx - WallRect.centerx # forskel mellem midten af spilleren og midten af væggen, er den negativ er man venstre for og positiv højre for 
             forskelY = PlayerRect.centery - WallRect.centery # forskel mellem midten af spilleren og midten af væggen, er den negativ er man over væggen og positiv under væggen
             overlapX = (PlayerRect.width + WallRect.width) / 2 - abs(forskelX) # hvor meget de overlapper vandret
-            overlapY = (PlayerRect.height + WallRect.height) / 2 - abs(forskelY) # hvor meget de overlapper vandret
+            overlapY = (PlayerRect.height + WallRect.height) / 2 - abs(forskelY) # hvor meget de overlapper lodret
 
             if overlapX < overlapY:
                 if forskelX > 0: # til højre for kassen
@@ -381,7 +381,7 @@ while running:
     currentPlayer.movement()
     currentPlayer.Gravity()
     currentPlayer.Hit(bullets)
-    ColisionHandler(currentPlayer, walls, ladders)
+    ColisionHandler()
     currentPlayer.draw(kamera)
     if pygame.key.get_pressed()[pygame.K_SPACE]:
         shoot(currentPlayer, currentPlayer, "mouse", kamera)
@@ -394,24 +394,3 @@ while running:
     clock.tick(FPS)  # limits FPS to 60
 
 pygame.quit()
-
-#Gammel collidetjek
-"""         if (Player.PosX + Player.Width > Wall.X and
-            Player.PosX < Wall.X + Wall.Width and
-            Player.PosY + Player.Height > Wall.Y and
-            Player.PosY < Wall.Y + Wall.Height and
-            Player.verticalVelocity >= 0):
-
-            currentPlayer.PosY = Wall.Y - Player.Height
-            Player.verticalVelocity = 0
-            Player.jumpCount = 0
-            Player.canJump = True
-            
-            if (Player.PosX + Player.Width > Ladder.X and
-            Player.PosX < Ladder.X + Ladder.Width and
-            Player.PosY + Player.Height > Ladder.Y and
-            Player.PosY < Ladder.Y + Ladder.Height):
-            
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_w]:
-                Player.verticalVelocity = -3.5"""
