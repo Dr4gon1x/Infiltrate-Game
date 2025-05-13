@@ -192,8 +192,8 @@ class Bullet:
         self.BulletY += self.retningY * self.hastighed
         self.traveled += self.hastighed
 
-def ColisionHandler():
-    PlayerRect = currentPlayer.GetRect()
+def ColisionHandler(Player, walls, ladders):
+    PlayerRect = Player.GetRect()
     
     for Wall in walls:
         WallRect = Wall.GetRect()
@@ -381,7 +381,7 @@ while running:
     currentPlayer.movement()
     currentPlayer.Gravity()
     currentPlayer.Hit(bullets)
-    ColisionHandler()
+    ColisionHandler(currentPlayer, walls, ladders)
     currentPlayer.draw(kamera)
     if pygame.key.get_pressed()[pygame.K_SPACE]:
         shoot(currentPlayer, currentPlayer, "mouse", kamera)
